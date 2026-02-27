@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(Stop-Process:*)",
+      "Bash(node:*)",
+      "Bash(curl:*)",
+      "Bash(netstat:*)",
+      "Bash(PORT=3001 node:*)",
+      "Bash(start:*)",
+      "Bash(rm:*)"
+    ]
+  }
+}
