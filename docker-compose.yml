@@ -1,34 +1,24 @@
 version: '3.8'
 
+# 不再创建新网络，而是引用已存在的common-network
+networks:
+  common-network:
+    external: true  # 声明这个网络是外部已存在的，不是本次创建
+
 services:
+  # 应用服务
   app:
     build: .
+    container_name: accounting-system
+    networks:
+      - common-network
     ports:
       - "3000:3000"
     environment:
-      - DB_HOST=db
+      - DB_HOST=mysql8
       - DB_PORT=3306
-      - DB_USER=accounting
-      - DB_PASSWORD=accounting_password
+      - DB_USER=root
+      - DB_PASSWORD=Abc123456!
       - DB_NAME=accounting
-      - SESSION_SECRET=your-secret-key-change-this
-    depends_on:
-      - db
+      - SESSION_SECRET=accounting-system-secret-key-2024
     restart: unless-stopped
-
-  db:
-    image: mysql:8.0
-    environment:
-      - MYSQL_ROOT_PASSWORD=root_password
-      - MYSQL_DATABASE=accounting
-      - MYSQL_USER=accounting
-      - MYSQL_PASSWORD=accounting_password
-    volumes:
-      - mysql_data:/var/lib/mysql
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-    ports:
-      - "3306:3306"
-    restart: unless-stopped
-
-volumes:
-  mysql_data:
